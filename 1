@@ -1,0 +1,65 @@
+// ১. প্যারেন্ট ক্লাস (Animal)
+class Animal {
+    // সাধারণ বৈশিষ্ট্য (Fields)
+    String name;
+
+    // সাধারণ কাজ (Methods)
+    void eat() {
+        System.out.println(name + " খাচ্ছে।");
+    }
+
+    void sound() {
+        System.out.println("প্রাণীটি শব্দ করছে।");
+    }
+}
+
+// ২. চাইল্ড ক্লাস (Dog) - এটি Animal-কে extends করেছে
+class Dog extends Animal {
+    // Dog এর নিজস্ব নতুন বৈশিষ্ট্য
+    String breed;
+
+    // Dog এর নিজস্ব নতুন কাজ
+    void fetch() {
+        System.out.println(name + " বল কুড়িয়ে আনছে।");
+    }
+
+    // sound() মেথডটিকে নিজের মতো করে পরিবর্তন (Override) করা হলো
+    @Override
+    void sound() {
+        System.out.println(name + " ঘেউ ঘেউ করছে।");
+    }
+}
+
+// ৩. চাইল্ড ক্লাস (Cat) - এটিও Animal-কে extends করেছে
+class Cat extends Animal {
+    // Cat এর নিজস্ব বৈশিষ্ট্য এবং কাজ
+    boolean indoor;
+
+    void purr() {
+        System.out.println(name + " ম্যাও ম্যাও করে ডাকছে।");
+    }
+}
+
+// ৪. মেইন ক্লাস - কোডটি রান করার জন্য
+public class Main {
+    public static void main(String[] args) {
+        // Dog ক্লাসের একটি অবজেক্ট তৈরি করি
+        Dog myDog = new Dog();
+        
+        // Animal ক্লাস থেকে উত্তরাধিকার সূত্রে পাওয়া 'name' এবং 'eat()' ব্যবহার করছি
+        myDog.name = "টমি"; 
+        myDog.eat(); // আউটপুট: টমি খাচ্ছে।
+        
+        // Dog এর নিজস্ব মেথড এবং ওভাররাইড করা মেথড
+        myDog.sound(); // আউটপুট: টমি ঘেউ ঘেউ করছে।
+        myDog.fetch(); // আউটপুট: টমি বল কুড়িয়ে আনছে।
+        
+        System.out.println("-------------------------");
+
+        // Cat ক্লাসের একটি অবজেক্ট তৈরি করি
+        Cat myCat = new Cat();
+        myCat.name = "মিনি";
+        myCat.eat();  // আউটপুট: মিনি খাচ্ছে। (Animal থেকে এসেছে)
+        myCat.purr(); // আউটপুট: মিনি ম্যাও ম্যাও করে ডাকছে। (Cat এর নিজস্ব)
+    }
+}
