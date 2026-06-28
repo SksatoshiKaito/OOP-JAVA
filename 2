@@ -1,0 +1,52 @@
+// ১. এখানে আমরা ব্যাংক অ্যাকাউন্টের ক্লাসটি তৈরি করলাম
+class BankAccount {
+    // ডেটা হাইডিং: ব্যালেন্সকে প্রাইভেট করে দিলাম যাতে বাইরে থেকে কেউ চুরি বা নষ্ট না করতে পারে
+    private double balance; 
+
+    // কনস্ট্রাক্টর: শুরুতে অ্যাকাউন্ট খোলার সময় কিছু টাকা জমা রাখার জন্য
+    public BankAccount(double initialBalance) {
+        if (initialBalance > 0) {
+            this.balance = initialBalance;
+        } else {
+            this.balance = 0;
+        }
+    }
+
+    // সেটার (Setter/Deposit) মেথড: সুরক্ষিত উপায়ে টাকা জমা করার জন্য
+    public void deposit(double amt) {
+        if (amt > 0) { 
+            this.balance += amt; // সঠিক অ্যামাউন্ট হলে ব্যালেন্স বাড়বে
+            System.out.println("সফলভাবে জমা হয়েছে: " + amt + " টাকা");
+        } else {
+            System.out.println("ভুল অ্যামাউন্ট! মাইনাস বা ০ টাকা জমা দেওয়া যাবে না।");
+        }
+    }
+
+    // গেটার (Getter) মেথড: সুরক্ষিত উপায়ে বর্তমান ব্যালেন্স দেখার জন্য
+    public double getBalance() {
+        return this.balance;
+    }
+}
+
+// ২. মেইন ক্লাস (যেখান থেকে আমরা ওপরের কোডটি চালাবো বা Outer World)
+public class Main {
+    public static void main(String[] args) {
+        
+        // শুরুতে ৫০০ টাকা দিয়ে একটি অ্যাকাউন্ট খুললাম
+        BankAccount myAccount = new BankAccount(500);
+        
+        // ❌ ভুল এবং অবৈধ চেষ্টা (সরাসরি অ্যাক্সেস):
+        // myAccount.balance = -99999; 
+        // ওপরের লাইনটি রান করতে গেলে জাভা আপনাকে ERROR দেবে। বলবে 'balance has private access'
+        // অর্থাৎ, আপনি চাইলেও সরাসরি ব্যালেন্স নষ্ট করতে পারছেন না। এটাই নিরাপত্তা!
+
+        //  সঠিক এবং সুরক্ষিত উপায় (Public Methods এর মাধ্যমে):
+        
+        // টাকা জমা দেওয়ার চেষ্টা করি
+        myAccount.deposit(200); // বৈধ অ্যামাউন্ট
+        myAccount.deposit(-50); // অবৈধ অ্যামাউন্ট (মেথডের ভেতরের 'if' কন্ডিশন একে আটকে দেবে)
+
+        // এবার ব্যালেন্স চেক করি
+        System.out.println("আপনার বর্তমান অ্যাকাউন্ট ব্যালেন্স: " + myAccount.getBalance() + " টাকা");
+    }
+}
