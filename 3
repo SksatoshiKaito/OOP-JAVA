@@ -1,115 +1,52 @@
-এবার আসা যাক OOP-এর আরেকটি দারুণ টপিকে, যা আপনার পাঠানো নতুন ইমেজ **"image_246f03.png"**-এ চমৎকারভাবে দেখানো হয়েছে—**Polymorphism (পলিমরফিজম)**।
-
-চলুন, এই ইমেজটির প্রতিটি অংশ একদম সহজ ভাষায় এবং কোডসহ বুঝে নেওয়া যাক।
-
----
-
-## Polymorphism কি?
-
-'Poly' মানে অনেক, আর 'Morphism' মানে রূপ। অর্থাৎ, **Polymorphism** শব্দের অর্থ হলো **"বহুরূপতা"** (One Interface, Many Forms)।
-
-ইমেজের সংজ্ঞা অনুযায়ী: বিভিন্ন অবজেক্ট যখন একই মেথড কলে (Method Call) নিজ নিজ উপায়ে ভিন্ন ভিন্ন প্রতিক্রিয়া বা আউটপুট দেখায়, সেটাই পলিমরফিজম।
-
-ইমেজ অনুযায়ী পলিমরফিজম প্রধানত **দুই প্রকার**:
-১. **Compile-time Polymorphism (Method Overloading)**
-২. **Runtime Polymorphism (Method Overriding)**
-
----
-
-### ১. Compile-time Polymorphism (Method Overloading)
-
-যখন একই ক্লাসের ভেতর **একই নামে একাধিক মেথড** থাকে, কিন্তু তাদের **প্যারামিটার (Parameters) বা ইনপুট আলাদা** হয়, তখন তাকে মেথড ওভারলোডিং বলে।
-
-* এটি কম্পাইল করার সময়ই (Compile-time) জাভা ঠিক করে ফেলে যে কোন মেথডটি কল হবে।
-
-**ইমেজের উদাহরণ অনুযায়ী জাভা কোড:**
-
-```java
 class Calculator {
-    // একই নাম 'print', কিন্তু প্যারামিটার আলাদা (int)
     void print(int x) {
-        System.out.println("এটি একটি ইন্টিজার সংখ্যা: " + x);
+        System.out.println("Integer: " + x);
     }
 
-    // একই নাম 'print', কিন্তু প্যারামিটার আলাদা (String)
     void print(String s) {
-        System.out.println("এটি একটি টেক্সট/স্ট্রিং: " + s);
+        System.out.println("String: " + s);
     }
 
-    // একই নাম 'print', কিন্তু প্যারামিটার আলাদা (double)
     void print(double d) {
-        System.out.println("এটি একটি দশমিক সংখ্যা: " + d);
+        System.out.println("Double: " + d);
     }
 }
 
-```
-
-*এখানে আপনি যখন `print(10)` কল করবেন, জাভা কম্পাইল টাইমেই বুঝে যাবে প্রথম মেথডটা চালাতে হবে।*
-
----
-
-### ২. Runtime Polymorphism (Method Overriding)
-
-যখন একটি চাইল্ড ক্লাস তার প্যারেন্ট ক্লাসের কোনো মেথডকে নিজের মতো করে পুনরায় লেখে (Redefines), তখন তাকে মেথড ওভাররাইডিং বলে।
-
-* এখানে কোড রান হওয়ার সময় (Runtime) অবজেক্টের ওপর ভিত্তি করে সিদ্ধান্ত নেওয়া হয় কোন মেথডটি চলবে (Dynamic Dispatch)।
-* ওভাররাইড করার সময় মেথডের উপরে `@Override` অ্যানোটেশন ব্যবহার করা হয়।
-
-**ইমেজের নিচের অংশের কোডটির পূর্ণাঙ্গ রূপ:**
-
-```java
-// প্যারেন্ট ক্লাস
 class Animal {
     void sound() {
-        System.out.println("প্রাণীটি আওয়াজ করছে");
+        System.out.println("The animal makes a sound");
     }
 }
 
-// চাইল্ড ক্লাস ১
 class Dog extends Animal {
     @Override
     void sound() {
-        System.out.println("Woof!"); // কুকুরের নিজস্ব রূপ
+        System.out.println("Woof!");
     }
 }
 
-// চাইল্ড ক্লাস ২
 class Cat extends Animal {
     @Override
     void sound() {
-        System.out.println("Meow!"); // বিড়ালের নিজস্ব রূপ
+        System.out.println("Meow!");
     }
 }
 
-```
-
----
-
-## ইমেজের আসল ম্যাজিক: "Same call, different behaviour"
-
-এবার **"image_246f03.png"** ফাইলের একদম নিচে থাকা কালো বক্সের কোডটুকু লক্ষ্য করুন:
-
-```java
 public class Main {
     public static void main(String[] args) {
-        
-        // ১. Animal টাইপের রেফারেন্সে Dog অবজেক্ট
+        // Method Overloading
+        Calculator calc = new Calculator();
+        calc.print(10);
+        calc.print("Hello");
+        calc.print(5.5);
+
+        System.out.println("-------------------------");
+
+        // Method Overriding
         Animal a = new Dog();
-        a.sound(); // আউটপুট: "Woof!"
+        a.sound(); 
         
-        // ২. Animal টাইপের রেফারেন্সে Cat অবজেক্ট
         Animal b = new Cat();
-        b.sound(); // আউটপুট: "Meow!"
-        
+        b.sound(); 
     }
 }
-
-```
-
-**এখানে কী ঘটছে?**
-
-* `a.sound()` এবং `b.sound()`—দুই জায়গায় কিন্তু আমরা দেখতে হুবহু একই মেথড কল করেছি (`sound()`)।
-* কিন্তু `a` অবজেক্টটি ভেতরে ভেতরে একটি **Dog**, তাই সে আউটপুট দিল `"Woof!"`।
-* আবার `b` অবজেক্টটি ভেতরে ভেতরে একটি **Cat**, তাই সে একই কলে আউটপুট দিল `"Meow!"`।
-
-এটাই হলো পলিমরফিজম—**ইন্টারফেস বা মেথড কল একটাই, কিন্তু অবজেক্টের রূপভেদে আচরণ বা আউটপুট ভিন্ন!**
